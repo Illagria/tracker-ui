@@ -1,6 +1,12 @@
 import { combineReducers } from 'redux'
-import appSettingsReducer from './AppSettings/reducer'
+import appReducer from './App/reducer'
+import popupReducer from './Popups/reducer'
+import tasksReducer from './Tasks/reducer'
+import userReducer from './User/reducer'
 
 export const rootReducer = combineReducers({
-    app: appSettingsReducer
+    app: appReducer,
+    popups: popupReducer,
+    tasks: tasksReducer,
+    user: userReducer
 })

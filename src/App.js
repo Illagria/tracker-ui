@@ -3,7 +3,8 @@ import { useDispatch } from 'react-redux'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { Banner } from './Components/Banner'
 import { Home, Login, PageNotFound } from './Components/Pages'
-import { requestFetchAppInit } from './Redux/AppSettings/actions'
+import { PopupManager } from './Components/PopupManager'
+import { requestFetchAppInit } from './Redux/App/actions'
 
 function App() {
     const dispatch = useDispatch()
@@ -17,6 +18,7 @@ function App() {
 
     return (
         <Banner>
+            <PopupManager />
             <Switch>
                 <Route exact path = '/'>
                     <Redirect to = '/login'/>

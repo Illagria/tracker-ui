@@ -39,6 +39,7 @@
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
       "!src/index.js",
+      "!src/Redux/store.js",
       "!src/Styles/materialThemes.js"
     ]
   },

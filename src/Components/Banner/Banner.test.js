@@ -22,7 +22,7 @@ test('<Banner /> - Has correct info', () => {
     expect(linkElement).toHaveLength(2)
 })
 
-test('<Banner /> - Has correct info', () => {
+test('<Banner /> - no classification from backend', () => {
     useSelectorMock().mockReturnValue({})
     render(<Banner><div/></Banner>)
     expect(screen.getAllByText('NOT CONNECTED TO SERVER')).toHaveLength(2)
