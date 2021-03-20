@@ -9,7 +9,7 @@ describe('CreateTaskPopup', () => {
     const submitTaskMock = useModuleMock('Redux/Tasks/actions', 'requestCreateTask')
 
     test('<CreateTaskPopup /> - test component renders properly', () => {
-        render(<CreateTaskPopup id = {0}/>)
+        render(<CreateTaskPopup userId = {0}/>)
 
         expect(screen.getByText('Add a new task')).toBeInTheDocument()
         expect(screen.getByTestId('CreateTaskPopup__input-detail')).toBeInTheDocument()
@@ -17,7 +17,7 @@ describe('CreateTaskPopup', () => {
 
     test('<CreateTaskPopup /> - test submit team',  () => {
         useDispatchMock().mockReturnValue({})
-        render(<CreateTaskPopup id = {0}/>)
+        render(<CreateTaskPopup userId = {0}/>)
 
         const detail = 'My New Task'
 
@@ -33,7 +33,7 @@ describe('CreateTaskPopup', () => {
 
     test('close popup', () => {
         useDispatchMock().mockReturnValue({})
-        render(<CreateTaskPopup id = {0}/>)
+        render(<CreateTaskPopup userId = {0}/>)
 
         fireEvent.click(screen.getByTestId('Popup__button-close'))
 

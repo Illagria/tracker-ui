@@ -24,14 +24,12 @@ function Home() {
     const user = useSelector(state => state.user)
 
     const addTask = () => {
-        // dispatch(openPopup(TaskConstants.CREATE_TASK, 'CreateTaskPopup', { id: user.id }))
-        dispatch(openPopup(TaskConstants.CREATE_TASK, 'CreateTaskPopup', { id: 5 }))
+        dispatch(openPopup(TaskConstants.CREATE_TASK, 'CreateTaskPopup', { userId: user.id }))
     }
 
     useEffect(() => {
         async function fetchTasks() {
-            // if (user.id) dispatch(requestGetTasksByUserId(user.id))
-            dispatch(requestGetTasksByUserId(5))
+            user.id > 0 && dispatch(requestGetTasksByUserId(user.id))
         }
         fetchTasks()
     }, [user, dispatch])

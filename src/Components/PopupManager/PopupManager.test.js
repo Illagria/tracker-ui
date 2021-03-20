@@ -17,7 +17,7 @@ test('<PopupManger /> - rendered component', async() => {
         componentName: 'CreateTaskPopup',
         name: 'test/popup',
         open: true,
-        props: { id: 0 }
+        props: { userId: 0 }
     }])
 
     render(<PopupManager />)
@@ -31,14 +31,14 @@ test('<PopupManger /> - checks props', async() => {
         componentName: 'CreateTaskPopup',
         name: 'test/popup',
         open: true,
-        props: { id: 0 }
+        props: { userId: 0 }
     }])
 
     useSelectorMock().mockReturnValueOnce([{
         componentName: 'CreateTaskPopup',
         name: 'test/popupDiff',
         open: true,
-        props: { id: 0 }
+        props: { userId: 0 }
     }])
 
     render(<PopupManager />)
@@ -52,14 +52,14 @@ test('<PopupManger /> - no dups same popup', async() => {
         componentName: 'CreateTaskPopup',
         name: 'test/popup',
         open: true,
-        props: { id: 0 }
+        props: { userId: 0 }
     }])
 
     useSelectorMock().mockReturnValueOnce([{
         componentName: 'CreateTaskPopup',
         name: 'test/popup',
         open: true,
-        props: { id: 0 }
+        props: { userId: 0 }
     }])
 
     render(<PopupManager />)

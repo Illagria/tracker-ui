@@ -7,7 +7,7 @@ import { requestCreateTask } from '../../../Redux/Tasks/actions'
 import TaskConstants from '../../../Redux/Tasks/constants'
 import Popup from '../../Popup/Popup'
 
-function CreateTaskPopup({ id }) {
+function CreateTaskPopup({ userId }) {
     const dispatch = useDispatch()
 
     const [detail, setDetail] = useState('')
@@ -20,7 +20,7 @@ function CreateTaskPopup({ id }) {
 
     const onSubmit = () => {
         dispatch(requestCreateTask({
-            userId: id,
+            userId,
             detail
         }))
     }
@@ -49,7 +49,7 @@ function CreateTaskPopup({ id }) {
 }
 
 CreateTaskPopup.propTypes = {
-    id: PropTypes.number.isRequired
+    userId: PropTypes.number.isRequired
 }
 
 export default CreateTaskPopup
