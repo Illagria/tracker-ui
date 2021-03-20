@@ -1,6 +1,6 @@
 {
-  "name": "midas",
-  "version": "0.1.0",
+  "name": "tracker",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "node index.js",
