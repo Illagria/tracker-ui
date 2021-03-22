@@ -39,4 +39,17 @@ describe('CreateTaskPopup', () => {
 
         expect(closePopupMock).toHaveBeenCalled()
     })
+
+    test('test error messaging', () => {
+        const state = {
+            errors: {
+                'task/create': [
+                    'detail error'
+                ]
+            }
+        }
+        render(<CreateTaskPopup userId = {0}/>, { initialState: state })
+
+        expect(screen.getByText('detail error')).toBeInTheDocument()
+    })
 })

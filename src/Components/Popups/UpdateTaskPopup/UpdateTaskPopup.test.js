@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import {
-    fireEvent, render, screen, useDispatchMock, useModuleMock, useSelectorMock
+    fireEvent, render, screen, useDispatchMock, useModuleMock
 } from '../../../Utilities/test-utils'
 import { UpdateTaskPopup } from './index'
 
@@ -9,6 +9,8 @@ import { UpdateTaskPopup } from './index'
 describe('UpdateTaskPopup', () => {
     const closePopupMock = useModuleMock('Redux/Popups/actions', 'closePopup')
     const submitTaskMock = useModuleMock('Redux/Tasks/actions', 'requestUpdateTask')
+    const selectRequestErrorsMock = useModuleMock('Redux/Errors/selectors', 'selectRequestErrors')
+    const selectTaskByIdMock = useModuleMock('Redux/Tasks/selectors', 'selectTaskById')
 
     const task = {
         userId: 0,
@@ -17,10 +19,11 @@ describe('UpdateTaskPopup', () => {
     }
 
     beforeEach(() => {
-        useSelectorMock().mockReturnValue(task)
+        selectTaskByIdMock.mockReturnValue(task)
     })
 
     test('test component renders properly', () => {
+        selectRequestErrorsMock.mockReturnValue([])
         render(<UpdateTaskPopup id = {3} />)
 
         expect(screen.getByText('Update task')).toBeInTheDocument()
@@ -28,6 +31,7 @@ describe('UpdateTaskPopup', () => {
     })
 
     test('test submit team', () => {
+        selectRequestErrorsMock.mockReturnValue([])
         useDispatchMock().mockReturnValue({})
         render(<UpdateTaskPopup id = {3} />)
 
@@ -44,11 +48,19 @@ describe('UpdateTaskPopup', () => {
     })
 
     test('close popup', () => {
+        selectRequestErrorsMock.mockReturnValue([])
         useDispatchMock().mockReturnValue({})
         render(<UpdateTaskPopup id = {3} />)
 
         fireEvent.click(screen.getByTestId('Popup__button-close'))
 
         expect(closePopupMock).toHaveBeenCalled()
+    })
+
+    test('test error messaging', () => {
+        selectRequestErrorsMock.mockReturnValue(['detail error'])
+        render(<UpdateTaskPopup id = {3}/>)
+
+        expect(screen.getByText('detail error')).toBeInTheDocument()
     })
 })

@@ -2,7 +2,9 @@ import { Button, Card, CardActions, CardContent, CardHeader, Grid, makeStyles, T
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import useEnterSubmit from '../../../Hooks/useEnterSubmit'
 import { requestFetchUserByEmail } from '../../../Redux/User/actions'
+import { getEmail, setSession } from '../../../Utilities/sessions'
 import Page from '../../Page/Page'
 
 const useStyles = makeStyles({
@@ -25,12 +27,17 @@ function Login() {
     const [email, setEmail] = useState('')
     const [error, setError] = useState(false)
 
+    const sessionEmail = getEmail()
     const helperText = 'cannot be empty'
 
-    function goHome() {
+    async function goHome() {
         if (!error && email.length > 0) {
-            dispatch(requestFetchUserByEmail(email))
-            history.push('/home')
+            const response = await dispatch(requestFetchUserByEmail(email))
+
+            if (response.payload.email) {
+                setSession('email', response.payload.email)
+                history.push('/home')
+            }
         } else {
             setError(true)
         }
@@ -40,6 +47,14 @@ function Login() {
         setEmail(target.value)
         if (target.value.length > 0 && error) setError(false)
     }
+
+    if (sessionEmail !== null && sessionEmail !== undefined) {
+        dispatch(requestFetchUserByEmail(sessionEmail))
+        history.push('/home')
+        return null
+    }
+
+    useEnterSubmit(goHome)
 
     return (
         <Page>

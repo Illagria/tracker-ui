@@ -1,16 +1,28 @@
-import { IconButton, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
-import { Delete, Done } from '@material-ui/icons'
+import { IconButton, List, ListItem, ListItemIcon, ListItemText, makeStyles } from '@material-ui/core'
+import { CheckBoxOutlineBlankRounded, CheckBoxOutlined, Delete } from '@material-ui/icons'
+import clsx from 'clsx'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { openPopup } from '../../Redux/Popups/actions'
 import { requestDeleteTask, requestUpdateTask } from '../../Redux/Tasks/actions'
 import TaskConstants from '../../Redux/Tasks/constants'
-import { getOpenTasks } from '../../Redux/Tasks/selectors'
+import { getTasks } from '../../Redux/Tasks/selectors'
+
+const useStyles = makeStyles(theme => ({
+    taskOpen: {
+        color: theme.palette.text.primary
+    },
+    taskComplete: {
+        color: theme.palette.text.secondary,
+        textDecoration: 'line-through'
+    }
+}))
 
 function TaskForm() {
     const dispatch = useDispatch()
+    const classes = useStyles()
 
-    const allOpenTasks = useSelector(state => getOpenTasks(state))
+    const allTasks = useSelector(getTasks)
 
     function onDelete(id) {
         dispatch(requestDeleteTask(id))
@@ -26,7 +38,7 @@ function TaskForm() {
 
     return (
         <List style = {{ padding: '20px' }}>
-            {allOpenTasks.map((task, index) => (
+            {allTasks.map((task, index) => (
                 <ListItem key = {index} role = {undefined} dense button>
                     <ListItemIcon>
                         <IconButton
@@ -35,10 +47,17 @@ function TaskForm() {
                             color = 'primary'
                             data-testid = {`TaskForm__complete-${index}`}
                         >
-                            <Done/>
+                            { task.complete ? <CheckBoxOutlined/> : <CheckBoxOutlineBlankRounded /> }
                         </IconButton>
                     </ListItemIcon>
-                    <ListItemText primary = {task.detail} onClick = {() => onUpdate(task.id)} />
+                    <ListItemText
+                        className = {clsx(classes.drawer, {
+                            [classes.taskOpen]: !task.complete,
+                            [classes.taskComplete]: task.complete
+                        })}
+                        primary = {task.detail}
+                        onClick = {() => onUpdate(task.id)}
+                    />
                     <ListItemIcon>
                         <IconButton
                             edge = 'end'

@@ -1,2 +1,2 @@
-export { default as UpdateTaskPopup } from './UpdateTaskPopup';
+export { default as UpdateTaskPopup } from './UpdateTaskPopup'
 

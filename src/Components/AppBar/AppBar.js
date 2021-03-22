@@ -1,7 +1,11 @@
-import { AppBar as AppBarMUI, makeStyles, Toolbar, Typography } from '@material-ui/core'
+import { AppBar as AppBarMUI, IconButton, makeStyles, Toolbar, Typography, useTheme } from '@material-ui/core'
+import { ExitToApp } from '@material-ui/icons'
 import PropTypes from 'prop-types'
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import { clearTasks } from '../../Redux/Tasks/reducer'
+import { clearSession, getEmail } from '../../Utilities/sessions'
 
 const useStyles = makeStyles(theme => ({
     logo: {
@@ -21,8 +25,17 @@ const useStyles = makeStyles(theme => ({
 function AppBar({ height, appColor, appName, appLogo }) {
     const classes = useStyles()
     const history = useHistory()
+    const dispatch = useDispatch()
+    const theme = useTheme()
+
+    const email = getEmail()
 
     const goHome = () => history.push('/home')
+    const onExit = () => {
+        clearSession()
+        dispatch(clearTasks())
+        history.push('/login')
+    }
 
     return (
         <AppBarMUI
@@ -56,6 +69,17 @@ function AppBar({ height, appColor, appName, appLogo }) {
                     </Typography>
                 }
                 <div style = {{ flexGrow: 1 }} />
+                {email &&
+                    <IconButton
+                        edge = 'end'
+                        color = 'default'
+                        data-testid = 'AppBar__icon-exit'
+                        style = {{ color: theme.palette.error.light }}
+                        onClick = {onExit}
+                    >
+                        <ExitToApp />
+                    </IconButton>
+                }
             </Toolbar>
         </AppBarMUI>
     )

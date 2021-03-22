@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { handleThunkRequest } from '../../Utilities/requests'
 import Constants from './constants'
-// import { deleteTask } from './reducer'
 
 export const requestCreateTask = createAsyncThunk(
     Constants.CREATE_TASK,

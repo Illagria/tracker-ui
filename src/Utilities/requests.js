@@ -17,9 +17,7 @@ export const handleThunkRequest = async({ endpoint, method, body }, rejectWithVa
 }
 
 export const getAPIURL = () => {
-    const location = window.location.origin
-    if (location === 'https://tracker.blueprint.omnifederal.com') return 'https://tracker-api.blueprint.omnifederal.com'
-    else return process.env.REACT_APP_BACKEND_URL ?? 'http://localhost:8000'
+    return window.REACT_APP_API_URL ?? 'http://localhost:8000'
 }
 
 export const createAxiosRequest = (routeSuffix, method, body) => {

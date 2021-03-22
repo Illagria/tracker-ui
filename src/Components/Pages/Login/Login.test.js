@@ -1,43 +1,74 @@
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { MemoryRouter } from 'react-router-dom'
-import { fireEvent, render, screen, useDispatchMock } from '../../../Utilities/test-utils'
+import { fireEvent, render, screen, useDispatchMock, useModuleMock, waitFor } from '../../../Utilities/test-utils'
 import { Login } from './index'
 
-const mockHistoryPush = jest.fn()
+describe('<Login />', () => {
 
-jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom'),
-    useHistory: () => ({
-        push: mockHistoryPush,
+    const mockHistoryPush = jest.fn()
+    const getEmailMock = useModuleMock('Utilities/sessions', 'getEmail')
+
+    jest.mock('react-router-dom', () => ({
+        ...jest.requireActual('react-router-dom'),
+        useHistory: () => ({
+            push: mockHistoryPush,
+        })
+    }))
+
+    test('continue button goes home', async() => {
+        useDispatchMock().mockReturnValue({ payload: { email: 'test' } })
+        getEmailMock.mockReturnValue(null)
+
+        render(<MemoryRouter><Login /></MemoryRouter>)
+        const inputField = screen.getByRole('textbox')
+
+        fireEvent.click(inputField)
+        userEvent.type(inputField, 'test')
+        fireEvent.click(screen.getByText(/CONTINUE/i))
+
+        waitFor(() => expect(mockHistoryPush).toHaveBeenCalledWith('/home'))
     })
-}))
 
-test('<Login /> - continue button', () => {
-    useDispatchMock().mockReturnValue({ payload: [{}] })
+    test('continue button failed', async() => {
+        useDispatchMock().mockReturnValue({ payload: { } })
+        getEmailMock.mockReturnValue(null)
 
-    render(<MemoryRouter><Login /></MemoryRouter>)
-    const inputField = screen.getByRole('textbox')
+        render(<MemoryRouter><Login /></MemoryRouter>)
+        const inputField = screen.getByRole('textbox')
 
-    fireEvent.click(inputField)
-    userEvent.type(inputField, 'test')
-    fireEvent.click(screen.getByText(/CONTINUE/i))
+        fireEvent.click(inputField)
+        userEvent.type(inputField, 'test')
+        fireEvent.click(screen.getByText(/CONTINUE/i))
 
-    expect(mockHistoryPush).toHaveBeenCalledWith('/home')
-})
+        waitFor(() => expect(mockHistoryPush).not.toHaveBeenCalled())
+    })
 
-test('<Login /> - should handle error display', () => {
-    useDispatchMock().mockReturnValue({ payload: [{}] })
+    test('already logged in', async() => {
+        const getEmailMock = useModuleMock('Utilities/sessions', 'getEmail')
+        getEmailMock.mockReturnValue('test')
 
-    render(<MemoryRouter><Login /></MemoryRouter>)
-    const inputField = screen.getByRole('textbox')
+        useDispatchMock().mockReturnValue({ payload: { } })
 
-    fireEvent.click(screen.getByText(/CONTINUE/i))
+        render(<MemoryRouter><Login /></MemoryRouter>)
 
-    expect(screen.getByText('cannot be empty')).toBeInTheDocument()
+        waitFor(() => expect(mockHistoryPush).toHaveBeenCalledWith('/home'))
+    })
 
-    fireEvent.click(inputField)
-    userEvent.type(inputField, 'test')
+    test('should handle error display', async() => {
+        useDispatchMock().mockReturnValue(null)
+        getEmailMock.mockReturnValue(null)
 
-    expect(screen.queryByText('cannot be empty')).not.toBeInTheDocument()
+        render(<MemoryRouter><Login /></MemoryRouter>)
+        const inputField = screen.getByRole('textbox')
+
+        fireEvent.click(screen.getByText(/CONTINUE/i))
+
+        expect(screen.getByText('cannot be empty')).toBeInTheDocument()
+
+        fireEvent.click(inputField)
+        userEvent.type(inputField, 'test')
+
+        expect(screen.queryByText('cannot be empty')).not.toBeInTheDocument()
+    })
 })

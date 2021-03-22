@@ -4,7 +4,7 @@ import { fireEvent, render, screen, useDispatchMock, useModuleMock } from '../..
 import { TaskForm } from './index'
 
 describe('UpdateTaskPopup', () => {
-    const getOpenTasksMock = useModuleMock('Redux/Tasks/selectors', 'getOpenTasks')
+    const getTasksMock = useModuleMock('Redux/Tasks/selectors', 'getTasks')
     const openPopupMock = useModuleMock('Redux/Popups/actions', 'openPopup')
     const onCompleteMock = useModuleMock('Redux/Tasks/actions', 'requestUpdateTask')
     const onDeleteMock = useModuleMock('Redux/Tasks/actions', 'requestDeleteTask')
@@ -20,12 +20,17 @@ describe('UpdateTaskPopup', () => {
             detail: 'test todo 2',
             id: 2,
             complete: false
-        },
+        }, {
+            userId: 0,
+            detail: 'test todo 3',
+            id: 2,
+            complete: true
+        }
     ]
 
     beforeEach(() => {
         useDispatchMock().mockReturnValue({})
-        getOpenTasksMock.mockReturnValue(openTask)
+        getTasksMock.mockReturnValue(openTask)
     })
 
     test('should renders properly', () => {

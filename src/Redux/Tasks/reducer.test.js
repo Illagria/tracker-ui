@@ -1,5 +1,5 @@
 import * as reduxActions from './actions'
-import reducer from './reducer'
+import reducer, { clearTasks } from './reducer'
 
 const mockStore = {
     0: {
@@ -76,4 +76,9 @@ test('should delete task from state', () => {
             isComplete: true
         }
     })
+})
+
+test('should delete all tasks', () => {
+    const state = reducer(mockStore, { type: clearTasks.type, payload: {} })
+    expect(state).toEqual({})
 })

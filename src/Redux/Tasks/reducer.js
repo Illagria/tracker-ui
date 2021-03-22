@@ -4,7 +4,13 @@ import * as actions from './actions'
 const tasksSlice = createSlice({
     name: 'tasks',
     initialState: {},
-    reducers: {},
+    reducers: {
+        clearTasks: {
+            reducer: () => {
+                return {}
+            }
+        }
+    },
     extraReducers: {
         [actions.requestGetTasksByUserId.fulfilled]: (state, action) => {
             action.payload.forEach(task => {
@@ -22,5 +28,7 @@ const tasksSlice = createSlice({
         }
     }
 })
+
+export const { clearTasks } = tasksSlice.actions
 
 export default tasksSlice.reducer
