@@ -8,13 +8,13 @@ function Page({ children }) {
     return (
         <>
             <AppBar
-                appColor = '#00aad5' //'#e91d2d'
+                appColor = '#00aad5'
                 appLogo = {appLogo}
                 appName = 'Tracker'
             />
             <div
                 data-testid = 'Page__content'
-                style = {{ padding: '68px 0 20px 0' }}
+                style = {{ padding: '68px 0 20px 0', height: 'inherit' }}
             >
                 {children}
             </div>

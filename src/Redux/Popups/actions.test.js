@@ -18,7 +18,7 @@ test('should create OpenPopup action', () => {
 })
 
 test('should create closePopup action', () => {
-    const payload = { open: false, name: 'Test Modal', componentName: '', props: {} }
+    const payload = { name: 'Test Modal' }
 
     store.dispatch(actions.closePopup('Test Modal'))
 

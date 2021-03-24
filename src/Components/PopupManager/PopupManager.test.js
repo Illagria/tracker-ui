@@ -1,9 +1,10 @@
-/* eslint-disable react/display-name */
+
 import React from 'react'
 import { render, screen, useSelectorMock, waitFor } from '../../Utilities/test-utils'
 import { PopupManager } from './index'
 
-jest.mock('../Popups/CreateTaskPopup/CreateTaskPopup', () => () => (<div>PopupManagerTest</div>))
+jest.mock('../Popups/CreateTaskPopup/CreateTaskPopup',
+    () => function testfn() { return (<div>PopupManagerTest</div>) })
 
 describe('PopupManager', () => {
 
