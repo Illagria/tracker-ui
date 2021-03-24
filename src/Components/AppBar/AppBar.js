@@ -70,15 +70,18 @@ function AppBar({ height, appColor, appName, appLogo }) {
                 }
                 <div style = {{ flexGrow: 1 }} />
                 {email &&
-                    <IconButton
-                        edge = 'end'
-                        color = 'default'
-                        data-testid = 'AppBar__icon-exit'
-                        style = {{ color: theme.palette.error.light }}
-                        onClick = {onExit}
-                    >
-                        <ExitToApp />
-                    </IconButton>
+                    <>
+                        <Typography color = 'textSecondary'>{email}</Typography>
+                        <IconButton
+                            edge = 'end'
+                            color = 'default'
+                            data-testid = 'AppBar__icon-exit'
+                            style = {{ color: theme.palette.error.light }}
+                            onClick = {onExit}
+                        >
+                            <ExitToApp />
+                        </IconButton>
+                    </>
                 }
             </Toolbar>
         </AppBarMUI>

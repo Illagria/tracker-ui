@@ -10,7 +10,7 @@ import Page from '../../Page/Page'
 const useStyles = makeStyles({
     root: {
         width: '100%',
-        minHeight: '100vh',
+        minHeight: 'calc(100% - 88px)',
         display: 'flex',
         alignItems: 'center'
     },

@@ -2,6 +2,7 @@ import { Box, Button, makeStyles, Typography } from '@material-ui/core'
 import { Add } from '@material-ui/icons'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router'
 import { openPopup } from '../../../Redux/Popups/actions'
 import { requestGetTasksByUserId } from '../../../Redux/Tasks/actions'
 import TaskConstants from '../../../Redux/Tasks/constants'
@@ -22,6 +23,7 @@ const useStyles = makeStyles(theme => ({
 function Home() {
     const classes = useStyles()
     const dispatch = useDispatch()
+    const history = useHistory()
     const sessionEmail = getEmail()
 
     const user = useSelector(state => state.user)
@@ -40,6 +42,8 @@ function Home() {
     useEffect(() => {
         if (user.id === undefined && sessionEmail) {
             dispatch(requestFetchUserByEmail(sessionEmail))
+        } else if (!sessionEmail) {
+            history.push('/login')
         }
     }, [])
 

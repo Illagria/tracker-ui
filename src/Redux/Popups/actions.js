@@ -20,10 +20,7 @@ export const closePopup = createAction(
     (name) => {
         return {
             payload: {
-                name,
-                open: false,
-                componentName: '',
-                props: { }
+                name
             }
         }
     }

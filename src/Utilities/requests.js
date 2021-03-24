@@ -1,5 +1,7 @@
 import Axios from 'axios'
 
+export const getAPIURL = () => { return window.REACT_APP_API_URL ?? 'http://localhost:8000' }
+
 export const handleThunkRequest = async({ endpoint, method, body }, rejectWithValue) => {
     const request = createAxiosRequest(endpoint, method, body)
     try {
@@ -14,10 +16,6 @@ export const handleThunkRequest = async({ endpoint, method, body }, rejectWithVa
             return rejectWithValue('Unknown error occured')
         }
     }
-}
-
-export const getAPIURL = () => {
-    return window.REACT_APP_API_URL ?? 'http://localhost:8000'
 }
 
 export const createAxiosRequest = (routeSuffix, method, body) => {

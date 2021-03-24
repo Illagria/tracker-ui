@@ -6,8 +6,8 @@ import { Login } from './index'
 
 describe('<Login />', () => {
 
-    const mockHistoryPush = jest.fn()
     const getEmailMock = useModuleMock('Utilities/sessions', 'getEmail')
+    const mockHistoryPush = jest.fn()
 
     jest.mock('react-router-dom', () => ({
         ...jest.requireActual('react-router-dom'),

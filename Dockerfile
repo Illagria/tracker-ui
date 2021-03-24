@@ -14,7 +14,9 @@ RUN yarn build
 FROM nginx
 
 COPY --from=builder /app/build/ /usr/share/nginx/html
+COPY --from=builder /app/configs/default.conf /etc/nginx/conf.d/
+COPY --from=builder /app/scripts/ /app/scripts/
 
-EXPOSE 8080
+EXPOSE 80
 
-CMD [ "nginx", "-g", "daemon off;" ]
+CMD [ "sh", "/app/scripts/docker_run.sh" ]

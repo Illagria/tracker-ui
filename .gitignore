@@ -11,6 +11,8 @@
 
 # misc
 .DS_Store
+./public/config.js
+
 # vscode
 .vscode
 
